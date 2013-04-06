@@ -1,81 +1,82 @@
 # encoding: utf-8
 namespace :crawl do
-  task :crawl_novel_link => :environment do
-    categories = Category.all
-    
+  
+  task :crawl_search_way_link => :environment do
+    categories = SingerCategory.all
     categories.each do |category|
+      c = LyricCrawler.new
+      c.fetch category.link
+      c.crawl_singer_search_way category.id
+    end 
+  end
 
-      (1..100).each do |i|
-        begin
-          crawler = NovelCrawler.new
-          crawler.fetch "http://www.bestory.com/category/#{category.id}-#{i}.html"
-          crawler.crawl_novels category.id
-        rescue
-          puts category.name + ":  http://www.bestory.com/category/#{category.id}-#{i}.html"
-        end
-      end
+  task :crawl_search_way_item => :environment do 
+    ways = SingerSearchWay.all
+    ways.each do |way|
+      c = LyricCrawler.new
+      c.fetch way.link
+      c.crawl_singer_search_way_item way.id
     end
   end
 
-  task :crawl_novel_detail => :environment do
-    Novel.where("name is null").find_in_batches do |novels|
-      novels.each do |novel|
-        begin
-          crawler = NovelCrawler.new
-          crawler.fetch novel.link
-          crawler.crawl_novel_detail novel.id
-          # crawler.crawl_articles novel.id
-          novel.crawl_times = novel.crawl_times + 1
-          novel.save
-          puts novel.id
-        rescue
-          puts "errors: #{novel.name}   #{novel.link}"
-        end
-      end
+  task :crawl_singer => :environment do
+    items = SingerSearchWayItem.select("id")
+    items.each do |item|
+      CrawlSingerWorker.perform_async(item.id)
     end
   end
 
-  task :crawl_cat_ranks　=> :environment do
-    Novel.update_all({:is_category_recommend => false , :is_category_hot => false, :is_category_this_week_hot => false})
-    categories = Category.all
-    
+  task :crawl_hot_singer => :environment do
+    categories = SingerCategory.all
     categories.each do |category|
-      crawler = NovelCrawler.new
-      crawler.fetch category.cat_link
-      crawler.crawl_cat_rank category.id
-    end
+      c = LyricCrawler.new
+      c.fetch category.link
+      c.crawl_hot_singer
+    end 
   end
 
-  task :crawl_articles => :environment do
-    Novel.where("id > 387").select("id").find_in_batches do |novels|
-      novels.each do |novel|
-        CrawlWorker.perform_async(novel.id)
+  task :crawl_singer_album_and_song => :environment do
+    Singer.select("id").find_in_batches do |singers|
+      singers.each do |singer|
+        CrawlAlbumSongWorker.perform_async(singer.id)
       end
     end
   end
 
-  task :crawl_article_text => :environment do
-    Article.where("text is null").select("id").find_in_batches do |articles|
-      articles.each do |article|
-        ArticleWorker.perform_async(article.id)
-        # begin
-        #   crawler = NovelCrawler.new
-        #   crawler.fetch article.link
-        #   crawler.crawl_article article
-        # rescue
-        #   puts "errors: #{article.link}"
-        # end
+  task :crawl_album_description => :environment do
+    Album.select("id").find_in_batches do |albums|
+      albums.each do |album|
+        CrawlAlbumInfoWorker.perform_async(album.id)
       end
     end
   end
 
-  task :crawl_rank => :environment do
-    ThisWeekHotShip.delete_all
-    ThisMonthHotShip.delete_all
-    HotShip.delete_all
-    url = "http://www.bestory.com/html/r-1.html"
-    crawler = NovelCrawler.new
-    crawler.fetch url
-    crawler.crawl_rank
+  task :crawl_song_lyric => :environment do
+    Song.select("id").where("lyric is null").find_in_batches do |songs|
+      songs.each do |song|
+        CrawlLyricWorker.perform_async(song.id)
+      end
+    end
+  end
+
+  task :crawl_hot_album => :environment do
+    Album.update_all("hot_album_category_id = null")
+    c = LyricCrawler.new
+    c.fetch "/twzhot-cd.htm"
+    c.crawl_hot_album
+  end
+
+  task :crawl_hot_song => :environment do
+    Song.update_all("hot_song_category_id = null")
+    c = LyricCrawler.new
+    c.fetch "/twzhot-song.htm"
+    c.crawl_hot_song
+  end
+
+  task :set_new_album => :environment do
+    Album.where("is_new = true").update_all("is_new = false")
+    c = LyricCrawler.new
+    c.fetch "/twznew.htm"
+    c.set_new_album
   end
 end
