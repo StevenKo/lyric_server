@@ -8,7 +8,7 @@ class Api::V1::SongsController < Api::ApiController
 
   def hot_songs
     category_id = params[:category_id]
-    songs = Song.where("hot_song_category_id = #{category_id}")
+    songs = Song.where("hot_song_category_id = #{category_id}").select("id,name,album_id")
     render :json => songs
   end
 
