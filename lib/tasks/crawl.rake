@@ -79,4 +79,11 @@ namespace :crawl do
     c.fetch "/twznew.htm"
     c.set_new_album
   end
+
+  task :crawl_hot_videos => :environment do
+    Video.delete_all
+    c = LyricCrawler.new
+    c.fetch_from_okitv "http://m.oiktv.com/"
+    c.crawl_hot_videos
+  end
 end

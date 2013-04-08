@@ -2,6 +2,21 @@
 class LyricCrawler
   include Crawler
 
+  def crawl_hot_videos
+    node = @page_html.css("h3").reject{ |node| node.text != "熱門影片"}[0]
+    nodes = node.next.next.css("a")
+    nodes.each do |node|
+      link = node[:href]
+      title = node.text.strip
+      # pic = node.css("img")[0][:src]
+      video = Video.new
+      video.title = title
+      /vplay-(.{11})\.html/ =~ link 
+      video.youtube_id = $1
+      video.save
+    end
+  end
+
   def set_new_album
     nodes = @page_html.css("a.X2")
     nodes.each do |node|
