@@ -22,4 +22,9 @@ class Api::V1::AlbumsController < Api::ApiController
     render :json => albums
   end
 
+  def search
+    albums = Album.search(params)
+    render :json => albums
+  end
+
 end

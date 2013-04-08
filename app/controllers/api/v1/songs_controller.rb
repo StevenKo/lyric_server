@@ -17,4 +17,14 @@ class Api::V1::SongsController < Api::ApiController
     render :json => songs
   end
 
+  def search_name
+    songs = Song.search_name(params)
+    render :json => songs
+  end
+
+  def search_lyric
+    songs = Song.search_lyric(params)
+    render :json => songs
+  end
+
 end

@@ -20,4 +20,9 @@ class Api::V1::SingersController < Api::ApiController
     singers = Singer.select("id, name").where("singer_category_id = #{params[:singer_category_id]} and is_hot = true").paginate(:page => params[:page], :per_page => 30)
     render :json => singers
   end
+
+  def search
+    singers = Singer.search(params)
+    render :json => singers
+  end
 end

@@ -9,18 +9,22 @@ LyricServer::Application.routes.draw do
         collection do
           get 'hot_albums'
           get 'new_albums'
+          get 'search'
         end
       end
 
       resources :songs do
         collection do
           get 'hot_songs'
+          get 'search_name'
+          get 'search_lyric'
         end
       end
 
       resources :singers, :only => [:index, :show] do
         collection do
           get 'hot_singers'
+          get 'search'
         end
       end
 
