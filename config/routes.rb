@@ -18,6 +18,7 @@ LyricServer::Application.routes.draw do
           get 'hot_songs'
           get 'search_name'
           get 'search_lyric'
+          get 'album_songs'
         end
       end
 

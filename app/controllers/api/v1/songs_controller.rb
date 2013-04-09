@@ -27,4 +27,10 @@ class Api::V1::SongsController < Api::ApiController
     render :json => songs
   end
 
+  def album_songs
+    album_id = params[:album_id]
+    songs = Song.where("album_id = #{album_id}").select("id,name,album_id")
+    render :json => songs
+  end
+
 end
