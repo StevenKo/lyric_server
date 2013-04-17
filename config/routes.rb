@@ -26,6 +26,7 @@ LyricServer::Application.routes.draw do
         collection do
           get 'hot_singers'
           get 'search'
+          get 'all_hot_singers'
         end
       end
 

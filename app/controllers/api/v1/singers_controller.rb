@@ -21,6 +21,11 @@ class Api::V1::SingersController < Api::ApiController
     render :json => singers
   end
 
+  def all_hot_singers
+    singers = Singer.select("id, name, singer_category_id").where("is_hot = true")
+    render :json => singers
+  end
+
   def search
     singers = Singer.search(params)
     render :json => singers
