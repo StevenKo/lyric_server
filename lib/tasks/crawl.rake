@@ -20,9 +20,16 @@ namespace :crawl do
   end
 
   task :crawl_singer => :environment do
-    items = SingerSearchWayItem.select("id")
+    items = SingerSearchWayItem.select("id,link")
     items.each do |item|
-      CrawlSingerWorker.perform_async(item.id)
+      begin 
+        c = LyricCrawler.new
+        c.fetch item.link
+        c.crawl_singer item.id
+      rescue
+        puts "error: item_id: #{item.id}"
+      end
+      # CrawlSingerWorker.perform_async(item.id)
     end
   end
 

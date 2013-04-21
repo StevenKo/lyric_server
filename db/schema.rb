@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130404014346) do
   end
 
   add_index "albums", ["hot_album_category_id"], :name => "index_albums_on_hot_album_category_id"
+  add_index "albums", ["link"], :name => "index_albums_on_link"
   add_index "albums", ["name"], :name => "index_albums_on_name"
   add_index "albums", ["singer_id"], :name => "index_albums_on_singer_id"
 
