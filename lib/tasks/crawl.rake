@@ -34,6 +34,7 @@ namespace :crawl do
   end
 
   task :crawl_hot_singer => :environment do
+    Singer.update_all("is_hot = false")
     categories = SingerCategory.all
     categories.each do |category|
       c = LyricCrawler.new
@@ -59,7 +60,7 @@ namespace :crawl do
   end
 
   task :crawl_song_lyric => :environment do
-    Song.select("id").where("lyric is null").find_in_batches do |songs|
+    Song.select("id").find_in_batches do |songs|
       songs.each do |song|
         CrawlLyricWorker.perform_async(song.id)
       end
