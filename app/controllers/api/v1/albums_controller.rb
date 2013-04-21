@@ -7,8 +7,8 @@ class Api::V1::AlbumsController < Api::ApiController
   end
 
   def show
-    album = Album.select("id,name,release_time,description").find(params[:id])
-    render :json => album
+    @album = Album.includes(:singer).select("id,name,release_time,description,singer_id").find(params[:id])
+    # render :json => album
   end
 
   def new_albums

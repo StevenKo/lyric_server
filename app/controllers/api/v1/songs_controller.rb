@@ -7,8 +7,8 @@ class Api::V1::SongsController < Api::ApiController
   end
 
   def show
-     song = Song.select("id,name,album_id,lyric").find(params[:id])
-     render :json => song
+     @song = Song.includes(:singer).select("id,name,album_id,lyric,singer_id").find(params[:id])
+     # render :json => song
   end
 
   def hot_songs
