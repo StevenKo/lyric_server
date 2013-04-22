@@ -8,13 +8,13 @@ class Song < ActiveRecord::Base
 
   def self.search_name(params)
     tire.search(page: params[:page], per_page: 20) do
-      query { string "name:#{params[:keyword]}", default_operator: "AND" }
+      query { string "name:#{params[:keyword]}", default_operator: "AND",minimum_should_match: "100%" }
     end
   end
 
   def self.search_lyric(params)
     tire.search(page: params[:page], per_page: 20) do
-      query { string "lyric:#{params[:keyword]}", default_operator: "AND" }
+      query { string "lyric:#{params[:keyword]}", default_operator: "AND",minimum_should_match: "100%" }
     end
   end
 
