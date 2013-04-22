@@ -9,7 +9,7 @@ class Album < ActiveRecord::Base
 
   def self.search(params)
 
-    tire.search(page: params[:page], per_page: 20, load: true) do
+    tire.search(page: params[:page], per_page: 20) do
       query { string params[:keyword], default_operator: "AND" }
       sort{by :id, 'desc'}
     end

@@ -23,8 +23,9 @@ class Api::V1::AlbumsController < Api::ApiController
   end
 
   def search
-    albums = Album.search(params)
-    render :json => albums
+    albums_items = Album.search(params)
+    ids = albums_items.map{|item| item["id"]}.join(",")
+    @albums = Album.includes(:singer).where("id in (#{ids})").select_id_name_release
   end
 
 end
