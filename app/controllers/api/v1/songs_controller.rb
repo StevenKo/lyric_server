@@ -18,12 +18,14 @@ class Api::V1::SongsController < Api::ApiController
 
   def search_name
     songs = Song.search_name(params)
+    render :json => [] unless songs.present?
     ids = songs.map{|item| item["id"]}.join(",")
     @songs = Song.includes(:singer).where("id in (#{ids})").select("id,name,album_id,singer_id")
   end
 
   def search_lyric
     songs = Song.search_lyric(params)
+    render :json => [] unless songs.present?
     ids = songs.map{|item| item["id"]}.join(",")
     @songs = Song.includes(:singer).where("id in (#{ids})").select("id,name,album_id,singer_id")
   end

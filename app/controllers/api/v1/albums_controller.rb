@@ -24,6 +24,7 @@ class Api::V1::AlbumsController < Api::ApiController
 
   def search
     albums_items = Album.search(params)
+    render :json => [] unless albums_items.present?
     ids = albums_items.map{|item| item["id"]}.join(",")
     @albums = Album.includes(:singer).where("id in (#{ids})").select_id_name_release
   end

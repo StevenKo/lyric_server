@@ -20,8 +20,8 @@ class Song < ActiveRecord::Base
 
   mapping do
     indexes :id, type: 'integer'
-    indexes :name, :analyzer => "cjk"
-    indexes :lyric, :analyzer => "cjk"
+    indexes :name, :analyzer => "chinese"
+    indexes :lyric, :analyzer => "chinese"
   end
 
 end

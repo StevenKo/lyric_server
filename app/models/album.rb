@@ -17,7 +17,7 @@ class Album < ActiveRecord::Base
 
   mapping do
     indexes :id, type: 'integer'
-    indexes :name, :analyzer => "cjk"
+    indexes :name, :analyzer => "chinese"
   end
 
 end
