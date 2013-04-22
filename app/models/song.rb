@@ -7,13 +7,13 @@ class Song < ActiveRecord::Base
   belongs_to :hot_song_category
 
   def self.search_name(params)
-    tire.search(page: params[:page], per_page: 20, load: true) do
+    tire.search(page: params[:page], per_page: 20) do
       query { string "name:#{params[:keyword]}", default_operator: "AND" }
     end
   end
 
   def self.search_lyric(params)
-    tire.search(page: params[:page], per_page: 20, load: true) do
+    tire.search(page: params[:page], per_page: 20) do
       query { string "lyric:#{params[:keyword]}", default_operator: "AND" }
     end
   end
