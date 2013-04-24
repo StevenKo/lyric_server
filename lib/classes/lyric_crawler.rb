@@ -88,7 +88,7 @@ class LyricCrawler
 
   def crawl_album_info album_id
      album = Album.find(album_id)
-     next if album.description
+     return if album.description
      node = @page_html.css("#introS dd")[0]
      album.description = change_node_br_to_newline(node)
      album.save
