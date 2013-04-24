@@ -201,7 +201,10 @@ class LyricCrawler
 
     nodes.each do |node|
       next unless node[:title]
-      next if Singer.find_by_link(node[:href])
+      if (s=Singer.find_by_link(node[:href]))
+        s.singer_search_way_items << item unless s.singer_search_way_items.include? item
+        next
+      end
       s = Singer.new
       s.name = node.text
       s.link = node[:href]
