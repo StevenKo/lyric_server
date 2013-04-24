@@ -24,9 +24,15 @@ class Api::V1::AlbumsController < Api::ApiController
 
   def search
     albums_items = Album.search(params)
-    render :json => [] unless albums_items.present?
-    ids = albums_items.map{|item| item["id"]}.join(",")
-    @albums = Album.includes(:singer).where("id in (#{ids})").select_id_name_release
+    if albums_items.present?
+      ids = albums_items.map{|item| item["id"].to_i}
+      id_string = ids.join(",")
+      unorder_albums = Album.includes(:singer).where("id in (#{id_string})").select_id_name_release
+      unorder_albums_ids = unorder_albums.map{|album| album.id }
+      @albums = ids.map{|id| unorder_albums[unorder_albums_ids.index(id)]}
+    else
+      render :json => [] unless albums_items.present?
+    end
   end
 
 end

@@ -11,13 +11,13 @@ class Album < ActiveRecord::Base
 
     tire.search(page: params[:page], per_page: 20) do
       query { string params[:keyword], default_operator: "AND" }
-      sort{by :id, 'desc'}
+      sort{by :release_time, 'desc'}
     end
   end
 
   mapping do
-    indexes :id, type: 'integer'
     indexes :name, :analyzer => "cjk"
+    indexes :release_time,      :type     => 'date', :index => 'not_analyzed', :include_in_all => false
   end
 
 end
