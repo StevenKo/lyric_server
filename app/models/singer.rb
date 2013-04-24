@@ -10,7 +10,7 @@ class Singer < ActiveRecord::Base
   has_many :singer_search_way_items, :through => :singer_search_way_item_relations
 
   def self.search(params)
-    tire.search(page: params[:page], per_page: 20, load: true) do
+    tire.search(page: params[:page], per_page: 24, load: true) do
       query { string params[:keyword], default_operator: "AND" }
     end
   end
