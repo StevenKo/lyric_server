@@ -18,6 +18,11 @@ class Api::V1::AlbumsController < Api::ApiController
 
   def hot_albums
     category_id = params[:category_id]
+    if category_id == 4
+      category_id = 5
+    elsif category_id == 5
+      category_id = 4
+    end
     @albums = Album.includes(:singer).where("hot_album_category_id = #{category_id}").select_id_name_release.order("release_time DESC")
     # render :json => albums
   end
