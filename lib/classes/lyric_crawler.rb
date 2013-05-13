@@ -139,7 +139,7 @@ class LyricCrawler
         album_node = node.css("a")[0]
         
         if album_node
-          a = Album.find_by_name(album_node.text.strip) || Album.new
+          a = Album.where("singer_id = #{singer_id} and name = ?",album_node.text.strip)[0] || Album.new
           a.name = album_node.text.strip
           a.link = album_node[:href]
         else
