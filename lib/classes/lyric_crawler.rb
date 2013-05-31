@@ -61,12 +61,8 @@ class LyricCrawler
         link = album_node[:href]
         album = Album.find_by_link(link)
         if album
-          ship = HotAlbumShip.new
-          ship.album_id = album.id
-          ship.hot_album_category_id = category.id
-          ship.save
-          # album.hot_album_category = category
-          # album.save
+          album.hot_album_category = category
+          album.save
         end
       end
     end
