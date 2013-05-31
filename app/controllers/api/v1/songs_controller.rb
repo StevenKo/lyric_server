@@ -18,7 +18,9 @@ class Api::V1::SongsController < Api::ApiController
     elsif category_id.to_i == 5
       category_id = 4
     end
-    @songs = Song.includes(:singer).where("hot_song_category_id = #{category_id}").select("id,name,album_id,singer_id").paginate(:page => params[:page], :per_page => 30)
+    ships = HotSongShip.where("hot_song_ships.hot_song_category_id = #{category_id}").select("song_id").paginate(:page => params[:page], :per_page => 30)
+    ids = ships.map{|ship| ship.song_id}
+    @songs = Song.includes(:singer).where("id in (#{ids.join(',')})").select("id,name,album_id,singer_id").order("FIELD(id, #{ids.join(',')})")
   end
 
   def search_name
