@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404014346) do
+ActiveRecord::Schema.define(:version => 20130531101154) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -36,11 +36,31 @@ ActiveRecord::Schema.define(:version => 20130404014346) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "hot_album_ships", :force => true do |t|
+    t.integer  "album_id"
+    t.integer  "hot_album_category_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "hot_album_ships", ["album_id"], :name => "index_hot_album_ships_on_album_id"
+  add_index "hot_album_ships", ["hot_album_category_id"], :name => "index_hot_album_ships_on_hot_album_category_id"
+
   create_table "hot_song_categories", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "hot_song_ships", :force => true do |t|
+    t.integer  "song_id"
+    t.integer  "hot_song_category_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "hot_song_ships", ["hot_song_category_id"], :name => "index_hot_song_ships_on_hot_song_category_id"
+  add_index "hot_song_ships", ["song_id"], :name => "index_hot_song_ships_on_song_id"
 
   create_table "singer_categories", :force => true do |t|
     t.string   "name"
