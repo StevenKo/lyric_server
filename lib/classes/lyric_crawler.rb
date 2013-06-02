@@ -201,7 +201,12 @@ class LyricCrawler
   def crawl_singer item_id
     item = SingerSearchWayItem.find(item_id)
     category = item.singer_search_way.singer_category
-    nodes = @page_html.xpath("//font[@color='#990000']")[1].parent.parent.parent.css("a")
+    nodes = []
+    if(item.name != "熱門")
+      nodes = @page_html.xpath("//font[@color='#990000']")[1].parent.parent.parent.css("a")
+    else
+      nodes = @page_html.xpath("//font[@color='#990000']")[0].parent.parent.parent.css("a")
+    end
 
     nodes.each do |node|
       next unless node[:title]
