@@ -70,7 +70,7 @@ class LyricCrawler
 
   def crawl_song_lyric song_id
     song = Song.find(song_id)
-    return if (song.lyric && song.lyric.size > 20)
+    return if (song.lyric && song.lyric.size > 35)
     nodes = @page_html.css('#fsZ')
     if nodes.present?
       song.lyric = change_node_br_to_newline(nodes[0]).strip
