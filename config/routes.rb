@@ -35,6 +35,17 @@ LyricServer::Application.routes.draw do
       resources :singer_categories, :only => [:index]
       resources :singer_search_way_items, :only => [:index]
 
+      resources :users, :only => [:create] do
+        collection do
+          put 'update_looked_songs'
+          put 'update_looked_singers'
+          put 'update_looked_albums'
+          put 'update_collected_songs'
+          put 'update_collected_albums'
+          put 'update_collected_singers'
+        end
+      end
+
     end
   end
 end
