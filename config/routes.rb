@@ -19,6 +19,7 @@ LyricServer::Application.routes.draw do
           get 'search_name'
           get 'search_lyric'
           get 'album_songs'
+          get 'top_list_songs'
         end
       end
 
@@ -45,6 +46,8 @@ LyricServer::Application.routes.draw do
           put 'update_collected_singers'
         end
       end
+
+      resources :top_lists, :only => [:index]
 
     end
   end
