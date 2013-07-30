@@ -55,4 +55,9 @@ class Api::V1::SongsController < Api::ApiController
     @songs = list.songs.select("songs.id,songs.name,songs.album_id,songs.singer_id")
   end
 
+  def recommend_songs
+    @songs = Song.joins(:recommend_song_relations).includes(:singer).where("recommend_song_relations.song_id = songs.id")
+    # @songs=[Song.first]
+  end
+
 end

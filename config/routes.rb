@@ -20,6 +20,7 @@ LyricServer::Application.routes.draw do
           get 'search_lyric'
           get 'album_songs'
           get 'top_list_songs'
+          get 'recommend_songs'
         end
       end
 
