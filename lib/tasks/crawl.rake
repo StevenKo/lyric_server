@@ -111,4 +111,19 @@ namespace :crawl do
     c.fetch_ordinary_site "http://i-favorites.net/MB/"
     c.crawl_top_list
   end
+
+
+  task :send_notification => :environment do
+    gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
+    registration_ids= ["APA91bEpO6cVUl9sfVO3PWAIzIJiy-io6qnKdnXPXojRQubPPPlc1xRHqJXgR0uueVo_7_Sq8-7kpHSHZCbBcwY-qQy_c1cXXUpCdSiHQN8rqbTvMGKORxzS-MZT6GOBa42En6yC_324duTkmjDz497FqJxm3uJWEQ"]
+    options = {data: {
+                  activity: 0, 
+                  title: "好久沒看小說王囉", 
+                  big_text: "繼續看個小說吧！", 
+                  content: "我是 content", 
+                  top_list_name: "fm 排行榜", 
+                  top_list_id: "2"
+                  }, collapse_key: "updated_score"}
+    response = gcm.send_notification(registration_ids, options)
+  end
 end
