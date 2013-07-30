@@ -51,8 +51,7 @@ class Api::V1::SongsController < Api::ApiController
 
   def top_list_songs
     list_id = params[:list_id]
-    list = TopList.find(list_id)
-    @songs = list.songs.select("songs.id,songs.name,songs.album_id,songs.singer_id").order("id DESC")
+    @songs = Song.joins(:top_lists).includes(:singer).where("top_lists.id = #{list_id}").select("songs.id,songs.name,songs.album_id,songs.singer_id").order("top_lists.id DESC")
   end
 
   def recommend_songs

@@ -8,6 +8,9 @@ class Song < ActiveRecord::Base
 
   has_many :recommend_song_relations
 
+  has_many :song_top_list_relations
+  has_many :top_lists, :through => :song_top_list_relations
+
   def self.search_name(params)
     tire.search(page: params[:page], per_page: 20) do
       query { string "name: #{params[:keyword]}", default_operator: "AND" }
