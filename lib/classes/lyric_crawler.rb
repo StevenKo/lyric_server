@@ -269,8 +269,8 @@ class LyricCrawler
   def crawl_top_list_song sub_list
     nodes = @page_html.css(".chart")
     nodes.each do |node|
-      song_name = node.css(".song").text
-      singer_name = node.css(".player").text
+      song_name = node.css(".song").text.strip
+      singer_name = node.css(".player").text.strip
       song = Song.find_by_name(song_name)
       if (song)
         sub_list.songs << song
