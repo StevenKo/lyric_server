@@ -96,11 +96,19 @@ namespace :crawl do
     c.set_new_album
   end
 
-  task :crawl_hot_videos => :environment do
+  # task :crawl_hot_videos => :environment do
+  #   puts "crawl crawl_hot_videos starts"
+  #   Video.delete_all
+  #   c = LyricCrawler.new
+  #   c.fetch_from_okitv "http://m.oiktv.com/"
+  #   c.crawl_hot_videos
+  # end
+
+  task :crawl_top_list => :environment do
     puts "crawl crawl_hot_videos starts"
-    Video.delete_all
+    SongTopListRelation.delete_all("top_list_id != 4 AND top_list_id != 5")
     c = LyricCrawler.new
-    c.fetch_from_okitv "http://m.oiktv.com/"
-    c.crawl_hot_videos
+    c.fetch_ordinary_site "http://i-favorites.net/MB/"
+    c.crawl_top_list
   end
 end

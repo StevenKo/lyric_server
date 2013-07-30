@@ -20,6 +20,30 @@ module Crawler
     @page_html = Nokogiri::HTML(content)
   end
 
+  def fetch_json url
+    @page_url = url
+    body = ''
+    begin
+      open(url){ |io|
+          body = io.read
+      }
+    rescue
+    end
+    @page_html = body
+  end
+
+  def fetch_ordinary_site url
+    @page_url = url
+    body = ''
+    begin
+      open(url){ |io|
+          body = io.read
+      }
+    rescue
+    end
+    @page_html = Nokogiri::HTML(body)
+  end
+
   def post_fetch url, option
     @page_url = url
     url = URI.parse(url)

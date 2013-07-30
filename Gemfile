@@ -51,3 +51,5 @@ gem 'slim'
 # full text search
 gem 'tire'
 
+gem 'gcm'
+

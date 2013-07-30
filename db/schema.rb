@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130729145057) do
+ActiveRecord::Schema.define(:version => 20130730040952) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -107,6 +107,13 @@ ActiveRecord::Schema.define(:version => 20130729145057) do
   add_index "singers", ["name"], :name => "index_singers_on_name"
   add_index "singers", ["singer_category_id"], :name => "index_singers_on_singer_category_id"
 
+  create_table "song_top_list_relations", :force => true do |t|
+    t.integer  "top_list_id"
+    t.integer  "song_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "songs", :force => true do |t|
     t.string   "name"
     t.integer  "album_id"
@@ -123,6 +130,13 @@ ActiveRecord::Schema.define(:version => 20130729145057) do
   add_index "songs", ["link"], :name => "index_songs_on_link"
   add_index "songs", ["name"], :name => "index_songs_on_name"
   add_index "songs", ["singer_id"], :name => "index_songs_on_singer_id"
+
+  create_table "top_lists", :force => true do |t|
+    t.integer  "top_list_id"
+    t.string   "name"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "registration_id"

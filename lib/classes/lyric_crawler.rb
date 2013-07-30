@@ -236,6 +236,48 @@ class LyricCrawler
     end
   end
 
+  def crawl_top_list
+    main_top_lists = @page_html.css(".menutitle.menudown")
+    main_top_lists.each do |main_list|
+      unless TopList.find_by_name(main_list.text)
+        t = TopList.create
+        t.top_list_id = 0
+        t.name = main_list.text
+        t.save
+      end
+
+      t = TopList.find_by_name(main_list.text)
+      main_list.next.next.css("a.subbutton").each do |sub_link|
+        unless TopList.find_by_name(sub_link.text)
+          sub_list = TopList.create
+          sub_list.top_list_id = t.id
+          sub_list.name = sub_link.text
+          sub_list.save
+        end
+        sub_list = TopList.find_by_name(sub_link.text)
+        url = @page_url + sub_link[:href]
+        puts url
+        unless (url.index("Hit201"))
+          c = LyricCrawler.new
+          c.fetch_ordinary_site url
+          c.crawl_top_list_song(sub_list)
+        end
+      end
+    end
+  end
+
+  def crawl_top_list_song sub_list
+    nodes = @page_html.css(".chart")
+    nodes.each do |node|
+      song_name = node.css(".song").text
+      singer_name = node.css(".player").text
+      song = Song.find_by_name(song_name)
+      if (song)
+        sub_list.songs << song
+      end
+    end
+  end
+
 
 
   private

@@ -55,9 +55,15 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     facter (1.6.18)
+    gcm (0.0.4)
+      httparty
+      json
     hashr (0.0.21)
     highline (1.6.16)
     hike (1.2.1)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     i18n (0.6.4)
     journey (1.0.4)
     jquery-rails (2.2.1)
@@ -70,6 +76,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.22)
     multi_json (1.7.2)
+    multi_xml (0.5.4)
     mysql2 (0.3.11)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
@@ -182,6 +189,7 @@ DEPENDENCIES
   capistrano
   capistrano-ext
   coffee-rails (~> 3.2.1)
+  gcm
   jquery-rails
   mysql2
   nokogiri
