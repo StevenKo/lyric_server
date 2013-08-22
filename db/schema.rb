@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730091059) do
+ActiveRecord::Schema.define(:version => 20130822070314) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -158,7 +158,10 @@ ActiveRecord::Schema.define(:version => 20130730091059) do
     t.text     "collected_singers"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "device_id"
   end
+
+  add_index "users", ["device_id"], :name => "index_users_on_device_id"
 
   create_table "videos", :force => true do |t|
     t.string   "title"

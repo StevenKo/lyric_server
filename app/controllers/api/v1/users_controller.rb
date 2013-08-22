@@ -1,14 +1,14 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
-    regid = params[:regid]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
-      user.registration_id = regid;
+      user.registration_id = params[:regid];
       user.save
     else
       user = User.new
-      user.registration_id = regid
+      user.device_id = params[:device_id]
+      user.registration_id = params[:regid]
       user.looked_songs = []
       user.looked_singers = []
       user.looked_albums = []
@@ -21,9 +21,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_looked_songs
-    regid = params[:regid]
     song = params[:song]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.looked_songs << song unless user.looked_songs.include? song
       user.save
@@ -34,9 +33,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_looked_singers
-    regid = params[:regid]
     singer = params[:singer]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.looked_singers << singer unless user.looked_singers.include? singer
       user.save
@@ -47,9 +45,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_looked_albums
-    regid = params[:regid]
     album = params[:album]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.looked_albums << album unless user.looked_albums.include? album
       user.save
@@ -60,9 +57,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_collected_songs
-    regid = params[:regid]
     songs = params[:songs]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.collected_songs = songs
       user.save
@@ -73,9 +69,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_collected_albums
-    regid = params[:regid]
     albums = params[:albums]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.collected_albums = albums
       user.save
@@ -86,9 +81,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update_collected_singers
-    regid = params[:regid]
     singers = params[:singers]
-    user = User.find_by_registration_id(regid)
+    user = find_user
     if user
       user.collected_singers = singers
       user.save
@@ -97,5 +91,12 @@ class Api::V1::UsersController < ApplicationController
       render :status=>404, :json => {"message" => "fail"}
     end
   end
+  
+  private
+    def find_user
+      device_id = params[:device_id]
+      return nil unless device_id
+      user = User.find_by_device_id(device_id)
+    end 
 
 end

@@ -115,7 +115,7 @@ namespace :crawl do
 
   task :send_notification => :environment do
     gcm = GCM.new("AIzaSyBSeIzNxqXm2Rr4UnThWTBDXiDchjINbrc")
-    registration_ids= ["APA91bEpO6cVUl9sfVO3PWAIzIJiy-io6qnKdnXPXojRQubPPPlc1xRHqJXgR0uueVo_7_Sq8-7kpHSHZCbBcwY-qQy_c1cXXUpCdSiHQN8rqbTvMGKORxzS-MZT6GOBa42En6yC_324duTkmjDz497FqJxm3uJWEQ"]
+    registration_ids= ["APA91bFWoezR6BLsEMIePSO66SwP-9mB3m8Vtu3L-NGYKczzyP8WqjtjiXN_08lW0N3Vqfn8nsEWgXIgQJElDCk1uqDjbpt-R1cbXo2R_Kwoldc5ZMYH9dhi064sHI4J0qYrYwjr6B3IEyKhoooZsAI7Z2nQWYs_1Q"]
     options = {data: {
                   activity: 0, 
                   title: "好久沒看小說王囉", 
