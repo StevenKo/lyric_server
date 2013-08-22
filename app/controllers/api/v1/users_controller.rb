@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
+    render :status=>404, :json => {"message" => "fail"} and return unless params[:device_id]
     user = find_user
     if user
       user.registration_id = params[:regid];
