@@ -2,7 +2,7 @@ class Api::V1::SongsController < Api::ApiController
   
   def index
     singer_id = params[:singer_id]
-    @songs = Song.includes(:singer).where("singer_id = #{singer_id}").select("id,name,album_id,singer_id").paginate(:page => params[:page], :per_page => 30)
+    @songs = Song.includes(:singer).where("singer_id = #{singer_id}").select("id,name,album_id,singer_id").order("id desc").paginate(:page => params[:page], :per_page => 30)
     # render :json => @songs
   end
 
