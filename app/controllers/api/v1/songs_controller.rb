@@ -52,7 +52,7 @@ class Api::V1::SongsController < Api::ApiController
   def top_list_songs
     list_id = params[:list_id]
     if list_id == "31"
-      @songs = Song.joins(:top_lists).includes(:singer).where("top_lists.id = #{list_id}").select("songs.id,songs.name,songs.album_id,songs.singer_id").order("song_top_list_relations.id AES")
+      @songs = Song.joins(:top_lists).includes(:singer).where("top_lists.id = #{list_id}").select("songs.id,songs.name,songs.album_id,songs.singer_id").order("song_top_list_relations.id ASC")
     else
       @songs = Song.joins(:top_lists).includes(:singer).where("top_lists.id = #{list_id}").select("songs.id,songs.name,songs.album_id,songs.singer_id").order("song_top_list_relations.id DESC")
     end
