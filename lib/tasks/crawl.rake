@@ -106,7 +106,7 @@ namespace :crawl do
 
   task :crawl_top_list => :environment do
     puts "crawl crawl_hot_videos starts"
-    SongTopListRelation.delete_all("top_list_id != 4 AND top_list_id != 5")
+    SongTopListRelation.delete_all("top_list_id != 4 AND top_list_id != 5 AND top_list_id != 31")
     c = LyricCrawler.new
     c.fetch_ordinary_site "http://i-favorites.net/MB/"
     c.crawl_top_list
