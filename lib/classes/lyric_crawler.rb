@@ -255,6 +255,9 @@ class LyricCrawler
           sub_list.save
         end
         sub_list = TopList.find_by_name(sub_link.text)
+        if sub_list.id == 9
+          sub_list = TopList.find(27)
+        end
         url = @page_url + sub_link[:href]
         puts url
         unless (url.index("Hit201"))
