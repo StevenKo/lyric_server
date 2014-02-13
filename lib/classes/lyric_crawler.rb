@@ -238,7 +238,6 @@ class LyricCrawler
 
   def crawl_top_list
     main_top_lists = @page_html.css(".menutitle.menudown")
-    binding.pry
     main_top_lists.each do |main_list|
       unless TopList.find_by_name(main_list.text)
         t = TopList.create
