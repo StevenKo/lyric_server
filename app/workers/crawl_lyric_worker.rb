@@ -1,7 +1,7 @@
 # encoding: utf-8
 class CrawlLyricWorker
   include Sidekiq::Worker
-  sidekiq_options queue: "lyric"
+  sidekiq_options queue: "lyric", timeout: 30
   
   def perform(song_id)
     song = Song.find(song_id)

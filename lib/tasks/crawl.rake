@@ -65,7 +65,7 @@ namespace :crawl do
 
   task :crawl_song_lyric => :environment do
     puts "crawl crawl_song_lyric starts"
-    Song.select("id").find_in_batches do |songs|
+    Song.where("lyric is null or length(lyric) < 50").select("id").find_in_batches do |songs|
       songs.each do |song|
         CrawlLyricWorker.perform_async(song.id)
       end
